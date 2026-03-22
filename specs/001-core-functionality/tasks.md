@@ -20,17 +20,17 @@
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 1.1.1 | 初始化 Go 模块 | `go.mod` | 创建 `go.mod`，定义模块名 `github.com/issue2md/issue2md`，Go 版本 >= 1.24 | - | pending |
-| 1.1.2 | 创建目录结构 | - | 创建 `cmd/cli/`、`internal/{parser,fetcher,converter,writer,errors}/` 目录 | 1.1.1 | pending |
-| 1.1.3 | 创建 Makefile | `Makefile` | 定义 `make test`、`make build`、`make web` 等标准目标 | 1.1.2 | pending |
+| 1.1.1 | 初始化 Go 模块 | `go.mod` | 创建 `go.mod`，定义模块名 `github.com/issue2md/issue2md`，Go 版本 >= 1.24 | - | completed |
+| 1.1.2 | 创建目录结构 | - | 创建 `cmd/cli/`、`internal/{parser,fetcher,converter,writer,errors}/` 目录 | 1.1.1 | completed |
+| 1.1.3 | 创建 Makefile | `Makefile` | 定义 `make test`、`make build`、`make web` 等标准目标 | 1.1.2 | completed |
 
 ### 1.2 错误类型定义
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 1.2.1 | 定义错误类型枚举 | `internal/errors/errors.go` | 创建 `ErrorType` 枚举：InvalidURL、UnsupportedURL、NotFound、RateLimit、AuthRequired、Network、FileExists | 1.1.2 | pending |
-| 1.2.2 | 定义 AppError 结构 | `internal/errors/errors.go` | 创建 `AppError` 结构体，包含 Type、Message、Err 字段，实现 `Error()` 方法 | 1.2.1 | pending |
-| 1.2.3 | [T] 编写 errors 包测试 | `internal/errors/errors_test.go` | 表格驱动测试：验证各错误类型的 Error() 输出格式 | 1.2.2 | pending |
+| 1.2.1 | 定义错误类型枚举 | `internal/errors/errors.go` | 创建 `ErrorType` 枚举：InvalidURL、UnsupportedURL、NotFound、RateLimit、AuthRequired、Network、FileExists | 1.1.2 | completed |
+| 1.2.2 | 定义 AppError 结构 | `internal/errors/errors.go` | 创建 `AppError` 结构体，包含 Type、Message、Err 字段，实现 `Error()` 方法 | 1.2.1 | completed |
+| 1.2.3 | [T] 编写 errors 包测试 | `internal/errors/errors_test.go` | 表格驱动测试：验证各错误类型的 Error() 输出格式 | 1.2.2 | completed |
 
 ---
 
@@ -40,28 +40,28 @@
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 2.1.1 | [T] 定义 URLType 测试 | `internal/parser/urltype_test.go` | 测试 URLType 枚举值：Issue=0、PullRequest=1、Discussion=2、Unknown=3 | 1.1.2 | pending |
-| 2.1.2 | 定义 URLType | `internal/parser/urltype.go` | 创建 URLType 类型和常量定义 | 2.1.1 | pending |
-| 2.1.3 | [T] 定义 ParsedURL 测试 | `internal/parser/parser_test.go` | 测试 ParsedURL 结构体字段：Type、Owner、Repo、Number、RawURL | 2.1.2 | pending |
-| 2.1.4 | 定义 ParsedURL | `internal/parser/parser.go` | 创建 ParsedURL 结构体 | 2.1.3 | pending |
+| 2.1.1 | [T] 定义 URLType 测试 | `internal/parser/urltype_test.go` | 测试 URLType 枚举值：Issue=0、PullRequest=1、Discussion=2、Unknown=3 | 1.1.2 | completed |
+| 2.1.2 | 定义 URLType | `internal/parser/urltype.go` | 创建 URLType 类型和常量定义 | 2.1.1 | completed |
+| 2.1.3 | [T] 定义 ParsedURL 测试 | `internal/parser/parser_test.go` | 测试 ParsedURL 结构体字段：Type、Owner、Repo、Number、RawURL | 2.1.2 | completed |
+| 2.1.4 | 定义 ParsedURL | `internal/parser/parser.go` | 创建 ParsedURL 结构体 | 2.1.3 | completed |
 
 ### 2.2 Parser 接口与实现
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 2.2.1 | [T] 测试 Parse Issue URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://github.com/owner/repo/issues/123` 解析为 Issue | 2.1.4 | pending |
-| 2.2.2 | [T] 测试 Parse PR URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://github.com/owner/repo/pull/456` 解析为 Pull Request | 2.2.1 [P] | pending |
-| 2.2.3 | [T] 测试 Parse Discussion URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://github.com/owner/repo/discussions/789` 解析为 Discussion | 2.2.1 [P] | pending |
-| 2.2.4 | [T] 测试子链接拒绝 | `internal/parser/parser_test.go` | 表格驱动：测试 `#issuecomment-456` 报错 "unsupported URL type" | 2.2.2 | pending |
-| 2.2.5 | [T] 测试无效 GitHub URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://google.com/owner/repo/issues/123` 报错 "not a GitHub URL" | 2.2.3 [P] | pending |
-| 2.2.6 | [T] 测试 http vs https | `internal/parser/parser_test.go` | 表格驱动：测试 `http://github.com/...` 应支持 | 2.2.5 [P] | pending |
-| 2.2.7 | 实现 Parse 方法 | `internal/parser/parser.go` | 实现 `Parser.Parse()` 方法，支持 Issue/PR/Discussion 解析 | 2.2.4, 2.2.5, 2.2.6 | pending |
+| 2.2.1 | [T] 测试 Parse Issue URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://github.com/owner/repo/issues/123` 解析为 Issue | 2.1.4 | completed |
+| 2.2.2 | [T] 测试 Parse PR URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://github.com/owner/repo/pull/456` 解析为 Pull Request | 2.2.1 [P] | completed |
+| 2.2.3 | [T] 测试 Parse Discussion URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://github.com/owner/repo/discussions/789` 解析为 Discussion | 2.2.1 [P] | completed |
+| 2.2.4 | [T] 测试子链接拒绝 | `internal/parser/parser_test.go` | 表格驱动：测试 `#issuecomment-456` 报错 "unsupported URL type" | 2.2.2 | completed |
+| 2.2.5 | [T] 测试无效 GitHub URL | `internal/parser/parser_test.go` | 表格驱动：测试 `https://google.com/owner/repo/issues/123` 报错 "not a GitHub URL" | 2.2.3 [P] | completed |
+| 2.2.6 | [T] 测试 http vs https | `internal/parser/parser_test.go` | 表格驱动：测试 `http://github.com/...` 应支持 | 2.2.5 [P] | completed |
+| 2.2.7 | 实现 Parse 方法 | `internal/parser/parser.go` | 实现 `Parser.Parse()` 方法，支持 Issue/PR/Discussion 解析 | 2.2.4, 2.2.5, 2.2.6 | completed |
 
 ### 2.3 Parser 验收测试
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 2.3.1 | [T] 验收测试：URL 解析 | `internal/parser/parser_acceptance_test.go` | 根据 spec 5.1 验收标准：有效 Issue/PR/Discussion URL、子链接、无效 URL | 2.2.7 | pending |
+| 2.3.1 | [T] 验收测试：URL 解析 | `internal/parser/parser_acceptance_test.go` | 根据 spec 5.1 验收标准：有效 Issue/PR/Discussion URL、子链接、无效 URL | 2.2.7 | completed |
 
 ---
 
@@ -71,19 +71,19 @@
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 3.1.1 | [T] 测试 GitHubResource 结构 | `internal/fetcher/resource_test.go` | 测试 GitHubResource 字段：Type、Title、Author、CreatedAt、State、Body、Labels、Comments、URL | 1.1.2 | pending |
-| 3.1.2 | [T] 测试 Comment 结构 | `internal/fetcher/resource_test.go` | 测试 Comment 字段：Author、CreatedAt、Body | 3.1.1 [P] | pending |
-| 3.1.3 | 定义 GitHubResource | `internal/fetcher/resource.go` | 创建 GitHubResource 结构体 | 3.1.2 | pending |
-| 3.1.4 | 定义 Comment | `internal/fetcher/resource.go` | 创建 Comment 结构体 | 3.1.3 [P] | pending |
+| 3.1.1 | [T] 测试 GitHubResource 结构 | `internal/fetcher/resource_test.go` | 测试 GitHubResource 字段：Type、Title、Author、CreatedAt、State、Body、Labels、Comments、URL | 1.1.2 | completed |
+| 3.1.2 | [T] 测试 Comment 结构 | `internal/fetcher/resource_test.go` | 测试 Comment 字段：Author、CreatedAt、Body | 3.1.1 [P] | completed |
+| 3.1.3 | 定义 GitHubResource | `internal/fetcher/resource.go` | 创建 GitHubResource 结构体 | 3.1.2 | completed |
+| 3.1.4 | 定义 Comment | `internal/fetcher/resource.go` | 创建 Comment 结构体 | 3.1.3 [P] | completed |
 
 ### 3.2 Fetcher 接口定义
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 3.2.1 | [T] 测试 Fetcher 接口签名 | `internal/fetcher/fetcher_test.go` | 测试 `Fetch(ctx, *parser.ParsedURL) (*GitHubResource, error)` 方法签名 | 3.1.4 | pending |
-| 3.2.2 | 定义 Fetcher 接口 | `internal/fetcher/fetcher.go` | 创建 `Fetcher` 接口定义 | 3.2.1 | pending |
-| 3.2.3 | [T] 测试 GitHubClient 接口 | `internal/fetcher/fetcher_test.go` | 测试 `FetchIssue`、`FetchPullRequest`、`FetchDiscussion` 方法签名 | 3.2.2 [P] | pending |
-| 3.2.4 | 定义 GitHubClient 接口 | `internal/fetcher/fetcher.go` | 创建 `GitHubClient` 接口定义 | 3.2.3 | pending |
+| 3.2.1 | [T] 测试 Fetcher 接口签名 | `internal/fetcher/fetcher_test.go` | 测试 `Fetch(ctx, *parser.ParsedURL) (*GitHubResource, error)` 方法签名 | 3.1.4 | completed |
+| 3.2.2 | 定义 Fetcher 接口 | `internal/fetcher/fetcher.go` | 创建 `Fetcher` 接口定义 | 3.2.1 | completed |
+| 3.2.3 | [T] 测试 GitHubClient 接口 | `internal/fetcher/fetcher_test.go` | 测试 `FetchIssue`、`FetchPullRequest`、`FetchDiscussion` 方法签名 | 3.2.2 [P] | completed |
+| 3.2.4 | 定义 GitHubClient 接口 | `internal/fetcher/fetcher.go` | 创建 `GitHubClient` 接口定义 | 3.2.3 | completed |
 
 ### 3.3 GitHub API 实现
 
