@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 
@@ -160,22 +161,68 @@ func TestGitHubClientMethods(t *testing.T) {
 type mockFetcher struct{}
 
 func (m *mockFetcher) Fetch(ctx context.Context, url *parser.ParsedURL) (*GitHubResource, error) {
-	return nil, nil
+	// 返回一个模拟的 GitHubResource
+	resource := &GitHubResource{
+		Type:      "issue",
+		Title:     "Mock Issue",
+		Author:    "mockuser",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		State:     "open",
+		Body:      "Mock body content",
+		Labels:    []string{"mock-label"},
+		Comments:  []Comment{},
+		URL:       url.RawURL,
+	}
+	return resource, nil
 }
 
 // mockGitHubClient 实现 GitHubClient 接口用于测试
 type mockGitHubClient struct{}
 
 func (m *mockGitHubClient) FetchIssue(ctx context.Context, owner, repo string, number int) (*GitHubResource, error) {
-	return nil, nil
+	return &GitHubResource{
+		Type:      "issue",
+		Title:     "Mock Issue",
+		Author:    "mockuser",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		State:     "open",
+		Body:      "Mock body content",
+		Labels:    []string{"mock-label"},
+		Comments:  []Comment{},
+		URL:       fmt.Sprintf("https://github.com/%s/%s/issues/%d", owner, repo, number),
+	}, nil
 }
 
 func (m *mockGitHubClient) FetchPullRequest(ctx context.Context, owner, repo string, number int) (*GitHubResource, error) {
-	return nil, nil
+	return &GitHubResource{
+		Type:      "pull_request",
+		Title:     "Mock PR",
+		Author:    "mockuser",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		State:     "closed",
+		Body:      "Mock PR body",
+		Labels:    []string{},
+		Comments:  []Comment{},
+		URL:       fmt.Sprintf("https://github.com/%s/%s/pull/%d", owner, repo, number),
+	}, nil
 }
 
 func (m *mockGitHubClient) FetchDiscussion(ctx context.Context, owner, repo string, number int) (*GitHubResource, error) {
-	return nil, nil
+	return &GitHubResource{
+		Type:      "discussion",
+		Title:     "Mock Discussion",
+		Author:    "mockuser",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		State:     "open",
+		Body:      "Mock discussion body",
+		Labels:    []string{},
+		Comments:  []Comment{},
+		URL:       fmt.Sprintf("https://github.com/%s/%s/discussions/%d", owner, repo, number),
+	}, nil
 }
 
 func TestGitHubResource_NotNil(t *testing.T) {
@@ -200,27 +247,23 @@ func TestGitHubResource_FieldsComplete(t *testing.T) {
 		t.Skip("resource is nil, skipping field checks")
 	}
 
-	createdAt := time.Date(2026, 3, 20, 10, 30, 0, 0, time.UTC)
-
-	if resource.Type != "" {
-		t.Errorf("Type = %v, want empty", resource.Type)
+	// 验证 mock 返回的资源包含正确的字段值
+	if resource.Type != "issue" {
+		t.Errorf("Type = %v, want issue", resource.Type)
 	}
-	if resource.Title != "" {
-		t.Errorf("Title = %v, want empty", resource.Title)
+	if resource.Title != "Mock Issue" {
+		t.Errorf("Title = %v, want Mock Issue", resource.Title)
 	}
-	if resource.Author != "" {
-		t.Errorf("Author = %v, want empty", resource.Author)
+	if resource.Author != "mockuser" {
+		t.Errorf("Author = %v, want mockuser", resource.Author)
 	}
-	if resource.CreatedAt != createdAt {
-		t.Errorf("CreatedAt mismatch")
+	if resource.State != "open" {
+		t.Errorf("State = %v, want open", resource.State)
 	}
-	if resource.State != "" {
-		t.Errorf("State = %v, want empty", resource.State)
+	if resource.Body != "Mock body content" {
+		t.Errorf("Body = %v, want Mock body content", resource.Body)
 	}
-	if resource.Body != "" {
-		t.Errorf("Body = %v, want empty", resource.Body)
-	}
-	if resource.URL != "" {
-		t.Errorf("URL = %v, want empty", resource.URL)
+	if resource.URL != "https://github.com/testowner/testrepo/issues/999" {
+		t.Errorf("URL = %v, want https://github.com/testowner/testrepo/issues/999", resource.URL)
 	}
 }

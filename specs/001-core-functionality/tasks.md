@@ -89,22 +89,22 @@
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 3.3.1 | [T] 测试 Issue 获取 | `internal/fetcher/github_test.go` | 表格驱动：测试 FetchIssue 调用 go-github 并转换结果 | 3.2.4 | pending |
-| 3.3.2 | [T] 测试 PR 获取 | `internal/fetcher/github_test.go` | 表格驱动：测试 FetchPullRequest 调用 go-github 并转换结果 | 3.3.1 [P] | pending |
-| 3.3.3 | [T] 测试 Discussion 获取 | `internal/fetcher/github_test.go` | 表格驱动：测试 FetchDiscussion 调用 go-github 并转换结果 | 3.3.2 [P] | pending |
-| 3.3.4 | 实现 GitHubClient | `internal/fetcher/github.go` | 实现 `githubClient` 结构体，封装 go-github v4 客户端 | 3.3.3 | pending |
-| 3.3.5 | [T] 测试限流错误处理 | `internal/fetcher/github_test.go` | 测试 API 返回 403 时包装为 "rate limit exceeded" 错误 | 3.3.4 | pending |
-| 3.3.6 | [T] 测试私有仓库错误 | `internal/fetcher/github_test.go` | 测试 404 或 403 私有仓库错误包装 | 3.3.5 [P] | pending |
-| 3.3.7 | [T] 测试 Token 缺失错误 | `internal/fetcher/github_test.go` | 测试环境变量 GITHUB_TOKEN 未设置时的错误 | 3.3.6 [P] | pending |
-| 3.3.8 | 实现限流错误处理 | `internal/fetcher/github.go` | 在 github.go 中实现错误包装逻辑 | 3.3.7 | pending |
-| 3.3.9 | [T] 测试 404 Not Found | `internal/fetcher/github_test.go` | 测试资源不存在时的错误处理 | 3.3.8 [P] | pending |
-| 3.3.10 | 实现 Fetch 方法 | `internal/fetcher/fetcher.go` | 实现 `Fetcher.Fetch()` 方法，根据 URLType 分发到不同获取方法 | 3.3.9 | pending |
+| 3.3.1 | [T] 测试 Issue 获取 | `internal/fetcher/github_test.go` | 表格驱动：测试 FetchIssue 调用 go-github 并转换结果 | 3.2.4 | completed |
+| 3.3.2 | [T] 测试 PR 获取 | `internal/fetcher/github_test.go` | 表格驱动：测试 FetchPullRequest 调用 go-github 并转换结果 | 3.3.1 [P] | completed |
+| 3.3.3 | [T] 测试 Discussion 获取 | `internal/fetcher/github_test.go` | 表格驱动：测试 FetchDiscussion 调用 go-github 并转换结果 | 3.3.2 [P] | completed |
+| 3.3.4 | 实现 GitHubClient | `internal/fetcher/github.go` | 实现 `githubClient` 结构体，封装 go-github v4 客户端 | 3.3.3 | completed |
+| 3.3.5 | [T] 测试限流错误处理 | `internal/fetcher/github_test.go` | 测试 API 返回 403 时包装为 "rate limit exceeded" 错误 | 3.3.4 | completed |
+| 3.3.6 | [T] 测试私有仓库错误 | `internal/fetcher/github_test.go` | 测试 404 或 403 私有仓库错误包装 | 3.3.5 [P] | completed |
+| 3.3.7 | [T] 测试 Token 缺失错误 | `internal/fetcher/github_test.go` | 测试环境变量 GITHUB_TOKEN 未设置时的错误 | 3.3.6 [P] | completed |
+| 3.3.8 | 实现限流错误处理 | `internal/fetcher/github.go` | 在 github.go 中实现错误包装逻辑 | 3.3.7 | completed |
+| 3.3.9 | [T] 测试 404 Not Found | `internal/fetcher/github_test.go` | 测试资源不存在时的错误处理 | 3.3.8 [P] | completed |
+| 3.3.10 | 实现 Fetch 方法 | `internal/fetcher/fetcher.go` | 实现 `Fetcher.Fetch()` 方法，根据 URLType 分发到不同获取方法 | 3.3.9 | completed |
 
 ### 3.4 Fetcher 集成测试
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 3.4.1 | [T] 集成测试：完整 Fetch 流程 | `internal/fetcher/integration_test.go` | 使用 httptest 模拟 GitHub API，测试完整获取流程 | 3.3.10 | pending |
+| 3.4.1 | [T] 集成测试：完整 Fetch 流程 | `internal/fetcher/integration_test.go` | 使用 httptest 模拟 GitHub API，测试完整获取流程 | 3.3.10 | completed |
 
 ---
 
@@ -114,56 +114,56 @@
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 4.1.1 | [T] 测试 Output 结构 | `internal/converter/output_test.go` | 测试 Output 字段：Frontmatter、Body、FullContent | 1.1.2 | pending |
-| 4.1.2 | 定义 Output | `internal/converter/output.go` | 创建 Output 结构体 | 4.1.1 | pending |
+| 4.1.1 | [T] 测试 Output 结构 | `internal/converter/output_test.go` | 测试 Output 字段：Frontmatter、Body、FullContent | 1.1.2 | completed |
+| 4.1.2 | 定义 Output | `internal/converter/output.go` | 创建 Output 结构体 | 4.1.1 | completed |
 
 ### 4.2 Converter 接口定义
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 4.2.1 | [T] 测试 Converter 接口签名 | `internal/converter/converter_test.go` | 测试 `Convert(*fetcher.GitHubResource, bool) (*Output, error)` 方法签名 | 4.1.2 | pending |
-| 4.2.2 | 定义 Converter 接口 | `internal/converter/converter.go` | 创建 `Converter` 接口 | 4.2.1 | pending |
+| 4.2.1 | [T] 测试 Converter 接口签名 | `internal/converter/converter_test.go` | 测试 `Convert(*fetcher.GitHubResource, bool) (*Output, error)` 方法签名 | 4.1.2 | completed |
+| 4.2.2 | 定义 Converter 接口 | `internal/converter/converter.go` | 创建 `Converter` 接口 | 4.2.1 | completed |
 
 ### 4.3 Markdown 格式化
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 4.3.1 | [T] 测试 Frontmatter 格式化 | `internal/converter/markdown_test.go` | 表格驱动：测试 spec 3.4.1 格式的 YAML frontmatter 生成 | 4.2.2 | pending |
-| 4.3.2 | [T] 测试标题渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 `# Title` 渲染 | 4.3.1 [P] | pending |
-| 4.3.3 | [T] 测试 Author 渲染 (userLink=false) | `internal/converter/markdown_test.go` | 表格驱动：测试 `**Author:** username` | 4.3.2 [P] | pending |
-| 4.3.4 | [T] 测试 Author 渲染 (userLink=true) | `internal/converter/markdown_test.go` | 表格驱动：测试 `**Author:** [username](https://github.com/username)` | 4.3.3 [P] | pending |
-| 4.3.5 | [T] 测试 State 渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 `🟢 Open` 和 `🔴 Closed` | 4.3.4 [P] | pending |
-| 4.3.6 | [T] 测试 Labels 渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 `**Labels:** label1, label2` | 4.3.5 [P] | pending |
-| 4.3.7 | [T] 测试 @mention 转换 | `internal/converter/markdown_test.go` | 表格驱动：测试 `@username` 转换为 `[username](https://github.com/username)` | 4.3.6 | pending |
-| 4.3.8 | [T] 测试 #reference 转换 | `internal/converter/markdown_test.go` | 表格驱动：测试 `#123` 转换为 issue/PR 链接 | 4.3.7 [P] | pending |
-| 4.3.9 | [T] 测试图片保留 | `internal/converter/markdown_test.go` | 表格驱动：测试 `![](https://user-images.githubusercontent.com/...)` URL 保留 | 4.3.8 [P] | pending |
-| 4.3.10 | [T] 测试代码块保留 | `internal/converter/markdown_test.go` | 表格驱动：测试 ` ```go ` 等语言标识保留 | 4.3.9 [P] | pending |
-| 4.3.11 | [T] 测试任务列表保留 | `internal/converter/markdown_test.go` | 表格驱动：测试 `- [ ]` 和 `- [x]` 语法保留 | 4.3.10 [P] | pending |
-| 4.3.12 | 实现 Frontmatter 格式化 | `internal/converter/markdown.go` | 实现 frontmatter 生成函数 | 4.3.1 | pending |
-| 4.3.13 | 实现 Markdown 渲染 | `internal/converter/markdown.go` | 实现标题、Author、State、Labels 渲染函数 | 4.3.12 | pending |
-| 4.3.14 | 实现内容转换 | `internal/converter/markdown.go` | 实现 @mention、#reference 转换函数 | 4.3.13 | pending |
+| 4.3.1 | [T] 测试 Frontmatter 格式化 | `internal/converter/markdown_test.go` | 表格驱动：测试 spec 3.4.1 格式的 YAML frontmatter 生成 | 4.2.2 | completed |
+| 4.3.2 | [T] 测试标题渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 `# Title` 渲染 | 4.3.1 [P] | completed |
+| 4.3.3 | [T] 测试 Author 渲染 (userLink=false) | `internal/converter/markdown_test.go` | 表格驱动：测试 `**Author:** username` | 4.3.2 [P] | completed |
+| 4.3.4 | [T] 测试 Author 渲染 (userLink=true) | `internal/converter/markdown_test.go` | 表格驱动：测试 `**Author:** [username](https://github.com/username)` | 4.3.3 [P] | completed |
+| 4.3.5 | [T] 测试 State 渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 `🟢 Open` 和 `🔴 Closed` | 4.3.4 [P] | completed |
+| 4.3.6 | [T] 测试 Labels 渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 `**Labels:** label1, label2` | 4.3.5 [P] | completed |
+| 4.3.7 | [T] 测试 @mention 转换 | `internal/converter/markdown_test.go` | 表格驱动：测试 `@username` 转换为 `[username](https://github.com/username)` | 4.3.6 | completed |
+| 4.3.8 | [T] 测试 #reference 转换 | `internal/converter/markdown_test.go` | 表格驱动：测试 `#123` 转换为 issue/PR 链接 | 4.3.7 [P] | completed |
+| 4.3.9 | [T] 测试图片保留 | `internal/converter/markdown_test.go` | 表格驱动：测试 `![](https://user-images.githubusercontent.com/...)` URL 保留 | 4.3.8 [P] | completed |
+| 4.3.10 | [T] 测试代码块保留 | `internal/converter/markdown_test.go` | 表格驱动：测试 ` ```go ` 等语言标识保留 | 4.3.9 [P] | completed |
+| 4.3.11 | [T] 测试任务列表保留 | `internal/converter/markdown_test.go` | 表格驱动：测试 `- [ ]` 和 `- [x]` 语法保留 | 4.3.10 [P] | completed |
+| 4.3.12 | 实现 Frontmatter 格式化 | `internal/converter/markdown.go` | 实现 frontmatter 生成函数 | 4.3.1 | completed |
+| 4.3.13 | 实现 Markdown 渲染 | `internal/converter/markdown.go` | 实现标题、Author、State、Labels 渲染函数 | 4.3.12 | completed |
+| 4.3.14 | 实现内容转换 | `internal/converter/markdown.go` | 实现 @mention、#reference 转换函数 | 4.3.13 | completed |
 
 ### 4.4 Comments 渲染
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 4.4.1 | [T] 测试 Comments 渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 spec 3.4.2 的评论格式 `### Comment by username @ timestamp` | 4.3.14 | pending |
-| 4.4.2 | [T] 测试空 Comments | `internal/converter/markdown_test.go` | 测试无评论时不输出 Comments 部分 | 4.4.1 [P] | pending |
-| 4.4.3 | 实现 Comments 渲染 | `internal/converter/markdown.go` | 实现评论渲染函数 | 4.4.2 | pending |
+| 4.4.1 | [T] 测试 Comments 渲染 | `internal/converter/markdown_test.go` | 表格驱动：测试 spec 3.4.2 的评论格式 `### Comment by username @ timestamp` | 4.3.14 | completed |
+| 4.4.2 | [T] 测试空 Comments | `internal/converter/markdown_test.go` | 测试无评论时不输出 Comments 部分 | 4.4.1 [P] | completed |
+| 4.4.3 | 实现 Comments 渲染 | `internal/converter/markdown.go` | 实现评论渲染函数 | 4.4.2 | completed |
 
 ### 4.5 Converter 核心实现
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 4.5.1 | [T] 测试 Convert 完整流程 | `internal/converter/converter_test.go` | 表格驱动：传入完整 GitHubResource，验证输出符合 spec 6.1/6.2 示例 | 4.4.3 | pending |
-| 4.5.2 | [T] 测试 userLink 参数 | `internal/converter/converter_test.go` | 测试 userLink=true 和 userLink=false 的不同输出 | 4.5.1 [P] | pending |
-| 4.5.3 | 实现 Converter | `internal/converter/converter.go` | 实现 `converter` 结构体和 `Convert` 方法 | 4.5.2 | pending |
+| 4.5.1 | [T] 测试 Convert 完整流程 | `internal/converter/converter_test.go` | 表格驱动：传入完整 GitHubResource，验证输出符合 spec 6.1/6.2 示例 | 4.4.3 | completed |
+| 4.5.2 | [T] 测试 userLink 参数 | `internal/converter/converter_test.go` | 测试 userLink=true 和 userLink=false 的不同输出 | 4.5.1 [P] | completed |
+| 4.5.3 | 实现 Converter | `internal/converter/converter.go` | 实现 `converter` 结构体和 `Convert` 方法 | 4.5.2 | completed |
 
 ### 4.6 Converter 验收测试
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 4.6.1 | [T] 验收测试：Markdown 生成 | `internal/converter/acceptance_test.go` | 根据 spec 5.2 验收标准：标签、@mention、#reference、图片、代码块、任务列表、userLink、closed state | 4.5.3 | pending |
+| 4.6.1 | [T] 验收测试：Markdown 生成 | `internal/converter/acceptance_test.go` | 根据 spec 5.2 验收标准：标签、@mention、#reference、图片、代码块、任务列表、userLink、closed state | 4.5.3 | completed |
 
 ---
 
@@ -173,24 +173,24 @@
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 5.1.1 | [T] 测试 Writer 接口签名 | `internal/writer/writer_test.go` | 测试 `Write(content, outputFile string) error` 方法签名 | 1.1.2 | pending |
-| 5.1.2 | 定义 Writer 接口 | `internal/writer/writer.go` | 创建 `Writer` 接口 | 5.1.1 | pending |
+| 5.1.1 | [T] 测试 Writer 接口签名 | `internal/writer/writer_test.go` | 测试 `Write(content, outputFile string) error` 方法签名 | 1.1.2 | completed |
+| 5.1.2 | 定义 Writer 接口 | `internal/writer/writer.go` | 创建 `Writer` 接口 | 5.1.1 | completed |
 
 ### 5.2 文件写入实现
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 5.2.1 | [T] 测试写入 stdout | `internal/writer/writer_test.go` | 测试 outputFile="" 时输出到标准输出 | 5.1.2 | pending |
-| 5.2.2 | [T] 测试写入文件 | `internal/writer/writer_test.go` | 表格驱动：测试写入新文件 | 5.2.1 [P] | pending |
-| 5.2.3 | [T] 测试文件已存在错误 | `internal/writer/writer_test.go` | 表格驱动：测试文件存在时返回 "file already exists" 错误 | 5.2.2 | pending |
-| 5.2.4 | [T] 测试目录不存在 | `internal/writer/writer_test.go` | 测试 `./dir/existing.md` 目录不存在场景 | 5.2.3 [P] | pending |
-| 5.2.5 | 实现 Writer | `internal/writer/writer.go` | 实现 `fileWriter` 结构体和 `Write` 方法 | 5.2.4 | pending |
+| 5.2.1 | [T] 测试写入 stdout | `internal/writer/writer_test.go` | 测试 outputFile="" 时输出到标准输出 | 5.1.2 | completed |
+| 5.2.2 | [T] 测试写入文件 | `internal/writer/writer_test.go` | 表格驱动：测试写入新文件 | 5.2.1 [P] | completed |
+| 5.2.3 | [T] 测试文件已存在错误 | `internal/writer/writer_test.go` | 表格驱动：测试文件存在时返回 "file already exists" 错误 | 5.2.2 | completed |
+| 5.2.4 | [T] 测试目录不存在 | `internal/writer/writer_test.go` | 测试 `./dir/existing.md` 目录不存在场景 | 5.2.3 [P] | completed |
+| 5.2.5 | 实现 Writer | `internal/writer/writer.go` | 实现 `fileWriter` 结构体和 `Write` 方法 | 5.2.4 | completed |
 
 ### 5.3 Writer 验收测试
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 5.3.1 | [T] 验收测试：文件输出 | `internal/writer/acceptance_test.go` | 根据 spec 5.3 验收标准：stdout、文件输出、文件已存在 | 5.2.5 | pending |
+| 5.3.1 | [T] 验收测试：文件输出 | `internal/writer/acceptance_test.go` | 根据 spec 5.3 验收标准：stdout、文件输出、文件已存在 | 5.2.5 | completed |
 
 ---
 
