@@ -14,28 +14,39 @@ import (
 func TestIntegration_FetchIssueWorkflow(t *testing.T) {
 	// 准备 Mock GitHub API Server
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// 验证请求路径和认证
-		if r.URL.Path != "/repos/owner/repo/issues/123" {
-			t.Errorf("unexpected path: got %s, want /repos/owner/repo/issues/123", r.URL.Path)
-		}
-
-		// 返回模拟的 Issue JSON 响应
-		resp := map[string]interface{}{
-			"title": "Integration Test Issue",
-			"user":  map[string]string{"login": "testuser"},
-			"created_at": "2026-03-20T10:30:00Z",
-			"updated_at": "2026-03-20T11:00:00Z",
-			"state": "open",
-			"body":  "This is an integration test issue",
-			"labels": []map[string]string{
-				{"name": "test"},
-				{"name": "integration"},
-			},
-			"comments": 1,
-			"html_url": "https://github.com/owner/repo/issues/123",
-		}
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
+
+		if r.URL.Path == "/repos/owner/repo/issues/123" {
+			// 返回模拟的 Issue JSON 响应
+			resp := map[string]interface{}{
+				"title":    "Integration Test Issue",
+				"user":     map[string]string{"login": "testuser"},
+				"created_at": "2026-03-20T10:30:00Z",
+				"updated_at": "2026-03-20T11:00:00Z",
+				"state":    "open",
+				"body":     "This is an integration test issue",
+				"labels": []map[string]string{
+					{"name": "test"},
+					{"name": "integration"},
+				},
+				"comments": 1,
+				"html_url": "https://github.com/owner/repo/issues/123",
+			}
+			json.NewEncoder(w).Encode(resp)
+		} else if r.URL.Path == "/repos/owner/repo/issues/123/comments" {
+			// 返回模拟的评论 JSON 响应
+			resp := []map[string]interface{}{
+				{
+					"body":      "Test comment",
+					"user":      map[string]string{"login": "commenter1"},
+					"created_at": "2026-03-20T12:00:00Z",
+					"updated_at": "2026-03-20T12:00:00Z",
+				},
+			}
+			json.NewEncoder(w).Encode(resp)
+		} else {
+			t.Errorf("unexpected path: %s", r.URL.Path)
+		}
 	}))
 	defer ts.Close()
 

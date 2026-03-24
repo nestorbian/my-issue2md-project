@@ -98,16 +98,52 @@ type discussionComment struct {
 	Body     string `json:"body"`
 }
 
+// commentResponse 是 GitHub Issue Comments API 响应格式
+type commentResponse struct {
+	Body      string `json:"body"`
+	Author    struct {
+		Login string `json:"login"`
+	} `json:"user"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+}
+
 // FetchIssue 获取 Issue
 func (c *githubClient) FetchIssue(ctx context.Context, owner, repo string, number int) (*GitHubResource, error) {
 	url := fmt.Sprintf("%s/repos/%s/%s/issues/%d", c.baseURL, owner, repo, number)
-	return c.fetchIssue(ctx, url, "issue")
+	resource, err := c.fetchIssue(ctx, url, "issue")
+	if err != nil {
+		return nil, err
+	}
+	// 获取评论
+	if resource.CommentsCount > 0 {
+		commentsURL := fmt.Sprintf("%s/repos/%s/%s/issues/%d/comments", c.baseURL, owner, repo, number)
+		comments, err := c.fetchComments(ctx, commentsURL)
+		if err != nil {
+			return nil, err
+		}
+		resource.Comments = comments
+	}
+	return resource, nil
 }
 
 // FetchPullRequest 获取 Pull Request
 func (c *githubClient) FetchPullRequest(ctx context.Context, owner, repo string, number int) (*GitHubResource, error) {
 	url := fmt.Sprintf("%s/repos/%s/%s/pulls/%d", c.baseURL, owner, repo, number)
-	return c.fetchIssue(ctx, url, "pull_request")
+	resource, err := c.fetchIssue(ctx, url, "pull_request")
+	if err != nil {
+		return nil, err
+	}
+	// Pull Request 的评论获取方式与 Issue 相同
+	if resource.CommentsCount > 0 {
+		commentsURL := fmt.Sprintf("%s/repos/%s/%s/issues/%d/comments", c.baseURL, owner, repo, number)
+		comments, err := c.fetchComments(ctx, commentsURL)
+		if err != nil {
+			return nil, err
+		}
+		resource.Comments = comments
+	}
+	return resource, nil
 }
 
 // FetchDiscussion 获取 Discussion
@@ -207,13 +243,14 @@ func (c *githubClient) fetchIssue(ctx context.Context, urlStr, resourceType stri
 	}
 
 	resource := &GitHubResource{
-		Type:   resourceType,
-		Title:  issueResp.Title,
-		Author: issueResp.User.Login,
-		State:  issueResp.State,
-		Body:   issueResp.Body,
-		URL:    issueResp.HTMLURL,
-		Labels: []string{},
+		Type:          resourceType,
+		Title:         issueResp.Title,
+		Author:        issueResp.User.Login,
+		State:         issueResp.State,
+		Body:          issueResp.Body,
+		URL:           issueResp.HTMLURL,
+		Labels:        []string{},
+		CommentsCount: issueResp.Comments,
 	}
 
 	if issueResp.CreatedAt != "" {
@@ -228,6 +265,44 @@ func (c *githubClient) fetchIssue(ctx context.Context, urlStr, resourceType stri
 	}
 
 	return resource, nil
+}
+
+func (c *githubClient) fetchComments(ctx context.Context, urlStr string) ([]Comment, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, urlStr, nil)
+	if err != nil {
+		return nil, fmt.Errorf("create request failed: %w", err)
+	}
+
+	c.setHeaders(req)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("request failed: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("unexpected status code %d: %s", resp.StatusCode, string(body))
+	}
+
+	var commentsResp []commentResponse
+	if err := json.NewDecoder(resp.Body).Decode(&commentsResp); err != nil {
+		return nil, fmt.Errorf("decode response failed: %w", err)
+	}
+
+	comments := make([]Comment, 0, len(commentsResp))
+	for _, cr := range commentsResp {
+		comment := Comment{
+			Author: cr.Author.Login,
+			Body:   cr.Body,
+		}
+		if cr.CreatedAt != "" {
+			comment.CreatedAt, _ = time.Parse(time.RFC3339, cr.CreatedAt)
+		}
+		comments = append(comments, comment)
+	}
+	return comments, nil
 }
 
 func (c *githubClient) setHeaders(req *http.Request) {

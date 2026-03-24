@@ -200,26 +200,26 @@
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 6.1.1 | [T] 测试环境变量读取 | `cmd/cli/main_test.go` | 测试 `GITHUB_TOKEN` 环境变量读取 | 1.1.2 | pending |
-| 6.1.2 | [T] 测试 flags 解析 | `cmd/cli/main_test.go` | 测试 `--user-link` / `-u` 和 `output_file` 参数解析 | 6.1.1 [P] | pending |
-| 6.1.3 | [T] 测试 Token 缺失错误 | `cmd/cli/main_test.go` | 测试 GITHUB_TOKEN 未设置时的错误输出 | 6.1.2 | pending |
-| 6.1.4 | 实现环境变量读取 | `cmd/cli/main.go` | 实现 GITHUB_TOKEN 读取逻辑 | 6.1.3 | pending |
-| 6.1.5 | 实现 flags 解析 | `cmd/cli/main.go` | 实现 `--user-link` / `-u` 和 `output_file` 参数解析 | 6.1.4 | pending |
+| 6.1.1 | [T] 测试环境变量读取 | `cmd/cli/main_test.go` | 测试 `GITHUB_TOKEN` 环境变量读取 | 1.1.2 | completed |
+| 6.1.2 | [T] 测试 flags 解析 | `cmd/cli/main_test.go` | 测试 `--user-link` / `-u` 和 `output_file` 参数解析 | 6.1.1 [P] | completed |
+| 6.1.3 | [T] 测试 Token 缺失错误 | `cmd/cli/main_test.go` | 测试 GITHUB_TOKEN 未设置时的错误输出 | 6.1.2 | completed |
+| 6.1.4 | 实现环境变量读取 | `cmd/cli/main.go` | 实现 GITHUB_TOKEN 读取逻辑 | 6.1.3 | completed |
+| 6.1.5 | 实现 flags 解析 | `cmd/cli/main.go` | 实现 `--user-link` / `-u` 和 `output_file` 参数解析 | 6.1.4 | completed |
 
 ### 6.2 组件串联
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 6.2.1 | [T] 测试完整流程 | `cmd/cli/main_test.go` | 集成测试：URL → Parser → Fetcher → Converter → Writer 完整流程 | 6.1.5 | pending |
-| 6.2.2 | [T] 测试错误传播 | `cmd/cli/main_test.go` | 测试各层错误是否正确传播到 CLI 输出 | 6.2.1 [P] | pending |
-| 6.2.3 | 实现 CLI 主流程 | `cmd/cli/main.go` | 实现 main 函数，串联各组件 | 6.2.2 | pending |
+| 6.2.1 | [T] 测试完整流程 | `cmd/cli/main_test.go` | 集成测试：URL → Parser → Fetcher → Converter → Writer 完整流程 | 6.1.5 | completed |
+| 6.2.2 | [T] 测试错误传播 | `cmd/cli/main_test.go` | 测试各层错误是否正确传播到 CLI 输出 | 6.2.1 [P] | completed |
+| 6.2.3 | 实现 CLI 主流程 | `cmd/cli/main.go` | 实现 main 函数，串联各组件 | 6.2.2 | completed |
 
 ### 6.3 CLI 验收测试
 
 | Task ID | 任务名称 | 文件 | 描述 | 依赖 | 状态 |
 |---------|----------|------|------|------|------|
-| 6.3.1 | [T] 验收测试：错误处理 | `cmd/cli/acceptance_test.go` | 根据 spec 5.4 验收标准：限流、私有仓库、无Token、网络错误、未找到 | 6.2.3 | pending |
-| 6.3.2 | [T] 端到端测试 | `cmd/cli/e2e_test.go` | 使用真实 GitHub API Token（或 mock）进行端到端测试 | 6.3.1 | pending |
+| 6.3.1 | [T] 验收测试：错误处理 | `cmd/cli/acceptance_test.go` | 根据 spec 5.4 验收标准：限流、私有仓库、无Token、网络错误、未找到 | 6.2.3 | completed |
+| 6.3.2 | [T] 端到端测试 | `cmd/cli/e2e_test.go` | 使用真实 GitHub API Token（或 mock）进行端到端测试 | 6.3.1 | completed |
 
 ---
 

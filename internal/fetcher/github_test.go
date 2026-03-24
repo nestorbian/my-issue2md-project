@@ -19,25 +19,42 @@ func NewGitHubClientForTest(baseURL, token string) GitHubClient {
 func TestFetchIssue_Success(t *testing.T) {
 	// 准备 Mock Server
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// 验证请求路径和认证头
-		if r.URL.Path != "/repos/owner/repo/issues/123" {
-			t.Errorf("unexpected path: got %s, want /repos/owner/repo/issues/123", r.URL.Path)
-		}
-
-		// 返回模拟的 Issue JSON 响应
-		resp := `{
-			"title": "Bug Report",
-			"user": {"login": "author123"},
-			"created_at": "2026-03-20T10:30:00Z",
-			"updated_at": "2026-03-20T11:00:00Z",
-			"state": "open",
-			"body": "This is a bug description",
-			"labels": [{"name": "bug"}, {"name": "priority-high"}],
-			"comments": 2,
-			"html_url": "https://github.com/owner/repo/issues/123"
-		}`
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(resp))
+
+		if r.URL.Path == "/repos/owner/repo/issues/123" {
+			// 返回模拟的 Issue JSON 响应
+			resp := `{
+				"title": "Bug Report",
+				"user": {"login": "author123"},
+				"created_at": "2026-03-20T10:30:00Z",
+				"updated_at": "2026-03-20T11:00:00Z",
+				"state": "open",
+				"body": "This is a bug description",
+				"labels": [{"name": "bug"}, {"name": "priority-high"}],
+				"comments": 2,
+				"html_url": "https://github.com/owner/repo/issues/123"
+			}`
+			w.Write([]byte(resp))
+		} else if r.URL.Path == "/repos/owner/repo/issues/123/comments" {
+			// 返回模拟的评论 JSON 响应
+			resp := `[
+				{
+					"body": "First comment",
+					"user": {"login": "commenter1"},
+					"created_at": "2026-03-20T12:00:00Z",
+					"updated_at": "2026-03-20T12:00:00Z"
+				},
+				{
+					"body": "Second comment",
+					"user": {"login": "commenter2"},
+					"created_at": "2026-03-20T13:00:00Z",
+					"updated_at": "2026-03-20T13:00:00Z"
+				}
+			]`
+			w.Write([]byte(resp))
+		} else {
+			t.Errorf("unexpected path: %s", r.URL.Path)
+		}
 	}))
 	defer ts.Close()
 
@@ -125,23 +142,35 @@ func TestFetchIssue_NotFound(t *testing.T) {
 // TestFetchPullRequest_Success 测试成功获取 Pull Request
 func TestFetchPullRequest_Success(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/repos/owner/repo/pulls/456" {
-			t.Errorf("unexpected path: got %s, want /repos/owner/repo/pulls/456", r.URL.Path)
-		}
-
-		resp := `{
-			"title": "feat: Add dark mode support",
-			"user": {"login": "designer456"},
-			"created_at": "2026-03-19T08:00:00Z",
-			"updated_at": "2026-03-19T09:00:00Z",
-			"state": "closed",
-			"body": "Adds dark mode support using CSS variables.",
-			"labels": [{"name": "enhancement"}, {"name": "ui"}],
-			"comments": 1,
-			"html_url": "https://github.com/owner/repo/pull/456"
-		}`
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(resp))
+
+		if r.URL.Path == "/repos/owner/repo/pulls/456" {
+			resp := `{
+				"title": "feat: Add dark mode support",
+				"user": {"login": "designer456"},
+				"created_at": "2026-03-19T08:00:00Z",
+				"updated_at": "2026-03-19T09:00:00Z",
+				"state": "closed",
+				"body": "Adds dark mode support using CSS variables.",
+				"labels": [{"name": "enhancement"}, {"name": "ui"}],
+				"comments": 1,
+				"html_url": "https://github.com/owner/repo/pull/456"
+			}`
+			w.Write([]byte(resp))
+		} else if r.URL.Path == "/repos/owner/repo/issues/456/comments" {
+			// PR 的评论也通过 issues 接口获取
+			resp := `[
+				{
+					"body": "PR comment",
+					"user": {"login": "prcommenter"},
+					"created_at": "2026-03-19T10:00:00Z",
+					"updated_at": "2026-03-19T10:00:00Z"
+				}
+			]`
+			w.Write([]byte(resp))
+		} else {
+			t.Errorf("unexpected path: %s", r.URL.Path)
+		}
 	}))
 	defer ts.Close()
 
